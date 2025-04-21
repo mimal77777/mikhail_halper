@@ -21,8 +21,9 @@ def telegram_webhook():
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
         json={"chat_id": chat_id, "text": reply}
     )
+
     return {"ok": True}
 
-if __name__ == "__main__":
+if name == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
