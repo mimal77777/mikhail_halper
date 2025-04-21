@@ -4,11 +4,10 @@ import os
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def ask_chatgpt(message):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартман. Общайся искренне, вдохновляюще, глубоко, вызывая желание действовать."},
-            {"role": "user", "content": message}
-        ]
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=message,
+        max_tokens=1000,
+        temperature=0.8
     )
-    return response.choices[0].message.content.strip()
+    return response["choices"][0]["text"].strip()
