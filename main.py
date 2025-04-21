@@ -6,7 +6,7 @@ from chatgpt_handler import ask_chatgpt
 app = Flask(__name__)
 BOT_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 
-@app.route(f'/{BOT_TOKEN}', methods=["POST"])
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def telegram_webhook():
     data = request.json
     chat_id = data["message"]["chat"]["id"]
