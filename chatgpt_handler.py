@@ -1,24 +1,28 @@
 import openai
 import os
+import requests
+import tempfile
 
-api_key = os.environ.get("OPENAI_API_KEY")
-client = openai.OpenAI(api_key=api_key)
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-def ask_chatgpt(message, is_audio=False):
-    if is_audio:
-        # message — путь к mp3-файлу
-        with open(message, "rb") as audio_file:
-            transcript = client.audio.transcriptions.create(
-                model="whisper-1",
-                file=audio_file
-            )
-        message = transcript.text
-
-    response = client.chat.completions.create(
+def ask_chatgpt(message):
+    response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартман. Общайся искренне, вдохновляюще, глубоко."},
+            {"role": "system", "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартман. Общайся искренне, вдохновляюще, глубоко, вызывая желание действовать."},
             {"role": "user", "content": message}
         ]
     )
     return response.choices[0].message.content.strip()
+
+
+def transcribe_voice(file_url):
+    audio_data = requests.get(file_url).content
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".oga") as temp_audio:
+        temp_audio.write(audio_data)
+        temp_audio.flush()
+
+        with open(temp_audio.name, "rb") as audio_file:
+            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
+    return transcript["text"]
