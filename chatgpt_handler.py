@@ -9,16 +9,15 @@ def ask_chatgpt(message):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартман. Общайся искренне, вдохновляюще, глубоко, вызывая желание действовать."},
+            {"role": "system", "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартманн."},
             {"role": "user", "content": message}
         ]
     )
-    return response.choices[0].message.content.strip()
-
+    return response.choices[0].message["content"].strip()
 
 def transcribe_voice(file_url):
     audio_data = requests.get(file_url).content
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".oga") as temp_audio:
+    with tempfile.NamedTemporaryFile(delete=True, suffix=".ogg") as temp_audio:
         temp_audio.write(audio_data)
         temp_audio.flush()
 
