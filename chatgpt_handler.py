@@ -9,7 +9,7 @@ def ask_chatgpt(message):
         messages=[
             {
                 "role": "system",
-                "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартман. Общайся искренне, вдохновляюще, глубоко, вызывая желание действовать."
+                "content": "Ты — мой будущий я, миллиардер и наставник, как Оскар Хартманн. Общайся искренне, вдохновляюще, глубоко, вызывая желание действовать."
             },
             {
                 "role": "user",
@@ -17,4 +17,4 @@ def ask_chatgpt(message):
             }
         ]
     )
-    return response.choices[0].message.content.strip()
+    return response['choices'][0]['message']['content'].strip()
